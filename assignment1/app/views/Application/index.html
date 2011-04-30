@@ -1,4 +1,33 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-#{welcome /}
+
+#{if flash.error}
+    <p style="color:#c00">
+        ${flash.error}
+    </p>
+#{/if}
+
+<form action="@{Application.index()}" method="GET">
+    <input type="text" name="url" /> 
+    <input type="submit" value="Generate Report" />
+</form> 
+
+
+<table>
+<thead>
+	<tr>
+		<td>Tag</td>
+		<td>Value</td>
+	</tr>
+</thead>
+#{list report, as:'row'}
+<tr>
+    #{list row, as:'cell'}
+	<td>
+		${cell}
+	</td>
+	#{/list}
+</tr>
+#{/list}
+</table>
