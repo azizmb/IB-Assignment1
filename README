@@ -54,3 +54,7 @@ Keypoints of solution:
 - The result generated is cached indefinitely in order to make it global.
   When the page is requested, the result is fetched from the cache and displayed.
 
+Screenshots:
+
+http://postimage.org/image/lxsqyo4/
+
