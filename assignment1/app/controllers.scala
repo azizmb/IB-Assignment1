@@ -15,7 +15,7 @@ object Application extends Controller {
 		if(validation.hasErrors) {
 			flash += "error" -> "You left the URL field blank!"
 		} else {
-			while (Cache.get("url")!=None){print ("limbo")}
+			while (Cache.get("url")!=None){//print ("limbo")}
 						
 			var results = List[List[String]]()
 			if (url != null) {
@@ -35,7 +35,7 @@ object Application extends Controller {
 					Cache.set("report", results)
 					Cache.set("report_url", devoded_url)
 				} catch {
-					case e: org.xml.sax.SAXParseException => flash.error("There was an error in parsing the page");
+					case e: org.xml.sax.SAXParseException => flash.error("There was an error in parsing the page. Probably malformed HTML");
 					case e => flash.error("Error: "+e.getMessage);
 				}
 			}
