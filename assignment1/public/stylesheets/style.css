@@ -1,0 +1,178 @@
+/*******************************************************
+TITLE: Fixed Box Layout  V1.0
+DATE: 20060809
+AUTHOR: The CSS Tinderbox - http://www.csstinderbox.com
+*******************************************************/
+
+body {
+margin:3em;
+padding:0;
+height:100%;
+background-color:#ffffff;
+color:#000000;  
+text-align:center;
+font-family:Arial, Helvetica, sans-serif;
+font-size:.9em;
+}
+
+a {
+color:#cc0000;
+text-decoration:underline;
+}
+
+a:hover {
+color:#eeeeee;
+text-decoration:none;
+}
+
+blockquote {
+margin:1em;
+padding:.5em;
+background-color:#eeeeee;
+border-top:1px solid #cccccc;
+border-bottom:1px solid #cccccc;
+}
+
+blockquote p {
+margin:.2em;
+}
+
+#centerColumn { 	
+margin:0 auto;
+padding:1em;
+width:30%;
+text-align:left;
+vertical-align: middle;	
+background-color:#cccccc;
+border:1px solid #999999;
+}
+
+#centerColumn h2 {
+margin:0 0 -.5em 0;
+padding:.75em 0 0 0;
+font-size:1em;
+letter-spacing:.1em;
+}
+
+#header {
+margin:-1em -1em 0 -1em;
+padding:0 0 0 0;
+height:5em;
+background-color:#ffffff;
+}
+
+#header h1 {
+margin:0 0 -.6em 0;
+padding:.5em 0 0 1em;
+font-size:1.5em;
+letter-spacing:.1em;
+}
+
+#header h2 {
+margin:0 0 0 0;
+padding:1em 0 0 1.75em;
+font-size:.9em;
+font-weight:300;
+letter-spacing:.1em;
+}
+
+#nav {
+margin:0 0 1em 0;
+padding:.4em 0 0 0;
+}
+
+#nav ul {
+margin:0;
+padding:0;
+list-style:none;
+}
+
+#nav li {
+margin:0;
+padding:.25em;
+display:inline;
+}
+
+#footer {
+position:relative;
+bottom:0;
+margin:5em 0 0 0;
+padding:0;
+height:4em;
+line-height:4em;
+text-align:center;
+font-size:.7em;
+background-color:#cccccc;
+border-top:1px solid #999999;
+}
+
+table { background:#D3E4E5;
+ border:1px solid gray;
+ border-collapse:collapse;
+ color:#fff;
+ font:normal 12px verdana, arial, helvetica, sans-serif;
+}
+caption { border:1px solid #5C443A;
+ color:#5C443A;
+ font-weight:bold;
+ padding:6px 4px 8px 0px;
+ text-align:center;
+}
+td, th { color:#363636;
+ padding:.4em;
+}
+tr { border:1px dotted gray;
+}
+thead th, tfoot th { background:#5C443A;
+ color:#FFFFFF;
+ padding:3px 10px 3px 10px;
+ text-align:left;
+ text-transform:uppercase;
+}
+tbody td a { color:#363636;
+ text-decoration:none;
+}
+tbody td a:visited { color:gray;
+ text-decoration:line-through;
+}
+tbody td a:hover { text-decoration:underline;
+}
+tbody th a { color:#363636;
+ font-weight:normal;
+ text-decoration:none;
+}
+tbody th a:hover { color:#363636;
+}
+tbody td+td+td+td a { background-image:url('bullet_blue.png');
+ background-position:left center;
+ background-repeat:no-repeat;
+ color:#03476F;
+ padding-left:15px;
+}
+tbody td+td+td+td a:visited { background-image:url('bullet_white.png');
+ background-position:left center;
+ background-repeat:no-repeat;
+}
+tbody th, tbody td { text-align:left;
+ vertical-align:top;
+}
+tfoot td { background:#5C443A;
+ color:#FFFFFF;
+ padding-top:3px;
+}
+.odd { background:#fff;
+}
+tbody tr:hover { background:#99BCBF;
+ border:1px solid #03476F;
+ color:#000000;
+}
+
+.center {
+ margin:0 auto;
+}
+
+
+
+
+
+

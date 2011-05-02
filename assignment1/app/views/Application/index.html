@@ -1,14 +1,14 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-
+<div id="centerColumn">
 #{if flash.error}
     <p style="color:#c00">
         ${flash.error}
     </p>
 #{/if}
 
-<form action="@{Application.processURL()}" method="POST">
+<form class="center" action="@{Application.processURL()}" method="POST">
     <input type="text" name="url" /> 
     <input type="submit" value="Generate Report" />
 </form> 
@@ -19,22 +19,24 @@
 #{/if}
 
 #{else}
-<table>
-<thead>
-	<tr>
-		<td>Tag</td>
-		<td>Value</td>
-	</tr>
-</thead>
+	<table class="center">
+	<caption>Report for: ${url ?: 'None'}</caption>
+	<thead>
+		<tr>
+			<th>Tag</th>
+			<th>Value</th>
+		</tr>
+	</thead>
 
-#{list report, as:'row'}
-<tr>
-    #{list row, as:'cell'}
-	<td>
-		${cell}
-	</td>
+	#{list report, as:'row'}
+	<tr>
+	    #{list row, as:'cell'}
+		<td>
+			${cell}
+		</td>
+		#{/list}
+	</tr>
 	#{/list}
-</tr>
-#{/list}
-</table>
+	</table>
 #{/else}
+</div>

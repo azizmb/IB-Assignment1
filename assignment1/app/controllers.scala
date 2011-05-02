@@ -20,19 +20,20 @@ object Application extends Controller {
 			var results = List[List[String]]()
 			if (url != null) {
 				try {
-					var html = parse(URLDecoder.decode(url, "utf-8"))
+ 					var devoded_url = URLDecoder.decode(url, "utf-8")
+					var html = parse(devoded_url)
 					List("h1", "h2", "h3", "h4", "h5", "h6").foreach {
 					(heading)=>
 						html \\ heading foreach { 
 								(n) =>
 									var i = List(heading, (n).text)
-									results ::= i
-									
+									results ::= i		
 						}
 					}
 					Cache.add("url", url, "5s")
 					results = results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1))))
 					Cache.set("report", results)
+					Cache.set("report_url", devoded_url)
 				} catch {
 					case e: org.xml.sax.SAXParseException => flash.error("There was an error in parsing the page");
 					case e => flash.error("Error: "+e.getMessage);
@@ -44,10 +45,11 @@ object Application extends Controller {
     
 	def index() = {
 		var results = Cache.get("report")
+		var url = Cache.get("report_url")
 		if (results.isEmpty){
-			Template('report -> results)
+			Template('report -> null)
 		} else {
-			Template('report -> results.toList(0))
+			Template('report -> results.toList(0), 'url -> url.toList(0))
 		}
 		
 	}
