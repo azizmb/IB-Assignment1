@@ -46,5 +46,7 @@ Screenshots:
 ------------
 ![screen1](http://i53.tinypic.com/2e16n0x.png)
 ![screen2](http://i55.tinypic.com/15o8d91.png)
+![screen3](http://i52.tinypic.com/34zyrkp.png)
+
 
 
