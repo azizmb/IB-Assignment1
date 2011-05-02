@@ -14,6 +14,11 @@
 </form> 
 
 
+#{if !report}
+    <h2>No Report Yet!</h2>
+#{/if}
+
+#{else}
 <table>
 <thead>
 	<tr>
@@ -21,6 +26,7 @@
 		<td>Value</td>
 	</tr>
 </thead>
+
 #{list report, as:'row'}
 <tr>
     #{list row, as:'cell'}
@@ -31,3 +37,4 @@
 </tr>
 #{/list}
 </table>
+#{/else}

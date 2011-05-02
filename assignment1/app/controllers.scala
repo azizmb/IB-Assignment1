@@ -15,7 +15,7 @@ object Application extends Controller {
 		if(validation.hasErrors) {
 			flash += "error" -> "You left the URL field blank!"
 		} else {
-			while (Cache.get(url)!=None){print ("limbo")}
+			while (Cache.get("url")!=None){print ("limbo")}
 						
 			var results = List[List[String]]()
 			if (url != null) {
@@ -30,7 +30,7 @@ object Application extends Controller {
 									
 						}
 					}
-					Cache.add(url, "5s")
+					Cache.add("url", url, "5s")
 					results = results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1))))
 					Cache.set("report", results)
 				} catch {
