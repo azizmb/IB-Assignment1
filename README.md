@@ -1,7 +1,8 @@
 Infinitely Beta Programming Assignment
---------------------------------------
+======================================
 
 Problem Statement:
+------------------
 
 1. Create a web application with a page that always displays two
 sections:
@@ -41,6 +42,7 @@ you see in your browser upon refresh as well.
 
 
 Requirements:
+-------------
 
 	sun-java6-jdk
 	Play framework [http://scala.playframework.org/]
@@ -48,13 +50,11 @@ Requirements:
 
 
 Keypoints of solution:
+----------------------
 
 - When url is successfully fetched and parsed, it is cached for 5 seconds. 
   This is done to make sure url is not requested more than twice in 5 seconds.
 - The result generated is cached indefinitely in order to make it global.
   When the page is requested, the result is fetched from the cache and displayed.
 
-Screenshots:
-
-http://postimage.org/image/lxsqyo4/
 
