@@ -19,12 +19,15 @@ object Application extends Controller {
 
 	def processURL(@Required url:String) = {
 		if(validation.hasErrors) {
-			flash += "error" -> "You left the URL field blank!"
+			flash.error("You left the URL field blank!")
 		} else {
 			var results = (urlActor !? url)
 			print (results)
-			reportActor ! results
-			print ("Sent new results")
+			results match {
+				case e: org.xml.sax.SAXParseException => flash.error("There was an error in parsing the page. Probably malformed HTML")
+				case e: Exception => flash.error("Error: "+e.getMessage)
+				case e: List[List[String]] => reportActor ! results
+			}
 		}
 		Action(index)
 	}
@@ -46,29 +49,34 @@ class UrlParseActor extends Actor {
 	def act = {
 		loop {
 			react {  // Like receive, but uses thread polling for efficiency.
-				case url: String => 
-					print (url)
-					val prev_visit = visited.getOrElse(url, 0: Long)
-					val current_time = new Date().getTime()
-					val elapsed = current_time - prev_visit
+				case url: String =>
+					try {
+						print (url)
+						val prev_visit = visited.getOrElse(url, 0: Long)
+						val current_time = new Date().getTime()
+						val elapsed = current_time - prev_visit
 
-					if (elapsed <= 5000) {
-						Thread.sleep(5000-elapsed)
-					}					
+						if (elapsed <= 5000) {
+							print ("Throtteling for: "+(5000-elapsed))
+							Thread.sleep(5000-elapsed)
+						}					
 					
-					var results = List[List[String]]()
-					var devoded_url = URLDecoder.decode(url, "utf-8")
-					var html = parse(devoded_url)
-					List("h1", "h2", "h3", "h4", "h5", "h6").foreach {
-						(heading)=>
-							html \\ heading foreach { 
-								(n) =>
-									var i = List(heading, (n).text)
-									results ::= i		
+						var results = List[List[String]]()
+						var devoded_url = URLDecoder.decode(url, "utf-8")
+						var html = parse(devoded_url)
+						List("h1", "h2", "h3", "h4", "h5", "h6").foreach {
+							(heading)=>
+								html \\ heading foreach { 
+									(n) =>
+										var i = List(heading, (n).text)
+										results ::= i		
+							}
 						}
+						visited += (url -> new Date().getTime())
+						reply(results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1)))))
+					} catch {			
+						case e => reply (e)
 					}
-					visited += (url -> new Date().getTime())
-					reply(results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1)))))
 			}
 		}
 	}
