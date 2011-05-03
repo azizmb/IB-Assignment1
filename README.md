@@ -48,7 +48,7 @@ Run application:
 
 Navigate to project folder
 
-    play install scala
+    play run
 
 
 	
