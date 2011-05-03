@@ -47,7 +47,7 @@ class UrlParseActor extends Actor {
 	private var visited = immutable.Map.empty[String, Long]
 	def act = {
 		loop {
-			react {  // Like receive, but uses thread polling for efficiency.
+			react {
 				case url: String =>
 					try {
 						val prev_visit = visited.getOrElse(url, 0: Long)
@@ -59,8 +59,8 @@ class UrlParseActor extends Actor {
 						}					
 					
 						var results = List[List[String]]()
-						var devoded_url = URLDecoder.decode(url, "utf-8")
-						var html = parse(devoded_url)
+						var decoded_url = URLDecoder.decode(url, "utf-8")
+						var html = parse(decoded_url)
 						List("h1", "h2", "h3", "h4", "h5", "h6").foreach {
 							(heading)=>
 								html \\ heading foreach { 
@@ -88,10 +88,11 @@ class UrlParseActor extends Actor {
 
 	def countVowels(text:String):Int = {
 		var count = 0
-		text.toLowerCase().foreach { c=> 
-			if (c=='a' || c=='e' || c=='i' || c=='o' || c=='u') {
-				count+=1
-			}
+		text.toLowerCase().foreach {
+			c=> 
+				if (c=='a' || c=='e' || c=='i' || c=='o' || c=='u') {
+					count+=1
+				}
 		}
 		count
 	}
