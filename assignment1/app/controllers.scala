@@ -22,7 +22,6 @@ object Application extends Controller {
 			flash.error("You left the URL field blank!")
 		} else {
 			var results = (urlActor !? url)
-			print (results)
 			results match {
 				case e: org.xml.sax.SAXParseException => flash.error("There was an error in parsing the page. Probably malformed HTML")
 				case e: Exception => flash.error("Error: "+e.getMessage)
@@ -51,13 +50,11 @@ class UrlParseActor extends Actor {
 			react {  // Like receive, but uses thread polling for efficiency.
 				case url: String =>
 					try {
-						print (url)
 						val prev_visit = visited.getOrElse(url, 0: Long)
 						val current_time = new Date().getTime()
 						val elapsed = current_time - prev_visit
 
 						if (elapsed <= 5000) {
-							print ("Throtteling for: "+(5000-elapsed))
 							Thread.sleep(5000-elapsed)
 						}					
 					
@@ -109,8 +106,7 @@ class ReportActor extends Actor {
 		while (true) {
 			receive {
 				case new_report: List[List[String]] => report = new_report
-				print ("got new results")
-
+				
 				case GetReport => reply(report)
 			}
 		}
