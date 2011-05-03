@@ -12,7 +12,10 @@ import play.data.validation._
 object Application extends Controller {
         
 	val urlActor = new UrlParseActor
+	val reportActor = new ReportActor
+
 	urlActor.start
+	reportActor.start
 
 	def processURL(@Required url:String) = {
 		if(validation.hasErrors) {
@@ -20,30 +23,39 @@ object Application extends Controller {
 		} else {
 			var results = (urlActor !? url)
 			print (results)
+			reportActor ! results
+			print ("Sent new results")
 		}
 		Action(index)
 	}
     
 	def index() = {
-		var results = Cache.get("report")
-		var url = Cache.get("report_url")
-		if (results.isEmpty){
-			Template('report -> null)
-		} else {
-			Template('report -> results.toList(0), 'url -> url.toList(0))
-		}
-		
+		var results = (reportActor !? GetReport)	
+		Template('report -> results)
 	}
     
 }
 
+
 import scala.actors._
+import scala.collection.immutable
+import java.util.Date
+
 class UrlParseActor extends Actor { 
+	private var visited = immutable.Map.empty[String, Long]
 	def act = {
 		loop {
 			react {  // Like receive, but uses thread polling for efficiency.
 				case url: String => 
 					print (url)
+					val prev_visit = visited.getOrElse(url, 0: Long)
+					val current_time = new Date().getTime()
+					val elapsed = current_time - prev_visit
+
+					if (elapsed <= 5000) {
+						Thread.sleep(5000-elapsed)
+					}					
+					
 					var results = List[List[String]]()
 					var devoded_url = URLDecoder.decode(url, "utf-8")
 					var html = parse(devoded_url)
@@ -55,9 +67,8 @@ class UrlParseActor extends Actor {
 									results ::= i		
 						}
 					}
-					results = results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1))))
-					reply(results)
-				
+					visited += (url -> new Date().getTime())
+					reply(results.filter(h => countVowels(h(1))>=4).sort((e1, e2) => (countVowels(e1(1)) > countVowels(e2(1)))))
 			}
 		}
 	}
@@ -74,10 +85,27 @@ class UrlParseActor extends Actor {
 		var count = 0
 		text.toLowerCase().foreach { c=> 
 			if (c=='a' || c=='e' || c=='i' || c=='o' || c=='u') {
-						count+=1
+				count+=1
 			}
 		}
-		return count
+		count
 	}
 } 
+
+case object GetReport {}
+
+class ReportActor extends Actor {
+	private var report = List[List[String]]()
+
+	def act = {
+		while (true) {
+			receive {
+				case new_report: List[List[String]] => report = new_report
+				print ("got new results")
+
+				case GetReport => reply(report)
+			}
+		}
+	}
+}
 
