@@ -24,22 +24,42 @@ Problem Statement:
 
 
 
-Requirements:
+Instructions:
 -------------
 
-	sun-java6-jdk
-	Play framework [http://scala.playframework.org/]
+Install Requirements:
+
+This application runs into errors when using Ubuntu's default java-jdk.
+	
+To change to Sun's jdk:
+	
+    sudo apt-get install sun-java6-jdk
+    sudo update-java-alternatives -s java-6-sun
+
+Install Play framework:
+
+Instructions here: http://www.playframework.org/documentation/1.0.1/install
+
+Install Play Scala plugin:
+
+    play install scala
+
+Run application:
+
+Navigate to project folder
+
+    play install scala
+
+
 	
 
 
 Keypoints of solution:
 ----------------------
 
-- When url is successfully fetched and parsed, it is cached for 5 seconds. 
-  This is done to make sure url is not requested more than twice in 5 seconds.
-- The result generated is cached indefinitely in order to make it global.
-  When the page is requested, the result is fetched from the cache and displayed.
-
+- Solution is implemented using two actors.
+    - UrlParseActor is used to parse urls. This actor also maintains a map with the time when the url was fetched.
+    - ReportActor is used to maintain the global report.
 
 
 Screenshots:
